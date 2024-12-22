@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Toggle Info with Leaflet Map and Reverse Geocoding</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+    <div class="layout">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <img src="https://www.liluziofficial.com/sites/g/files/g2000019221/files/2024-10/Logo_ForSite_New.gif" alt="Logo" onclick="handleLogoClick()">
+            </div>
+            <div class="menu">
+                <a href="#" onclick="showTab('music')">My Favorite</a>
+                <a href="#" onclick="showTab('videos')">Clips</a>
+                <a href="#" onclick="showTab('merch')">Hobbies</a>
+                <a href="#" onclick="showTab('game')">Game</a>
+                <a href="#" onclick="showTab('info')">Info</a>
+            </div>
+            <footer>
+                <div class="social">
+                    <a href="https://t.me/Gee6ked" target="_blank">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
+                    </a>
+                    <a href="https://instagram.com/gee6ked" target="_blank">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
+                    </a>
+                </div>
+                <p>&copy; 2024 SILK ROAD</p>
+                <p>
+                    <a onclick="openPrivacyModal()">Privacy policy</a> | 
+                    <a onclick="openTermsModal()">Terms of use</a>
+                </p>
+            </footer>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Вкладка Музыка -->
+            <div class="tab-content" id="music">
+                <div class="music-grid">
+                    <!-- Пример альбома -->
+                    <div class="album" data-artist="Kai Cenat">
+                        <img class="album-cover" src="https://i.ytimg.com/vi/Oz0e3XDR6lo/maxresdefault.jpg" alt="Kai Cenat">
+                        <div class="album-title">Kai Cenat</div>
+                    </div>
+                    <!-- Добавьте остальные альбомы аналогично -->
+                </div>
+            </div>
+
+            <!-- Вкладка Видео -->
+            <div class="tab-content" id="videos">
+                <div class="video-section">
+                    <h1>Videos</h1>
+                    <div class="video-item" onclick="openVideoModal('https://www.youtube.com/embed/bnFa4Mq5PAM')">
+                        <img src="https://i.ytimg.com/vi/bnFa4Mq5PAM/maxresdefault.jpg" alt="Video Preview">
+                        <div class="play-icon"></div>
+                        <div class="video-title">Lil Uzi Vert - 20 Min</div>
+                    </div>
+                    <!-- Добавьте остальные видео аналогично -->
+                </div>
+            </div>
+
+            <!-- Вкладка Hobbies -->
+            <div class="tab-content" id="merch">
+                <div class="hobby-container">
+                    <div class="hobby-item">
+                        <img src="https://example.com/image.jpg" alt="Hobby Image">
+                        <div class="hobby-details">
+                            <div class="hobby-title">Hobby Title</div>
+                            <div class="hobby-description">Описание хобби.</div>
+                        </div>
+                    </div>
+                    <!-- Добавьте остальные хобби аналогично -->
+                </div>
+            </div>
+
+            <!-- Вкладка Game -->
+            <div class="tab-content" id="game">
+                <div id="mario-game-container">
+                    <canvas id="gameCanvas" width="800" height="600"></canvas>
+                </div>
+            </div>
+
+            <!-- Вкладка Info -->
+            <div class="tab-content" id="info">
+                <div class="info-container">
+                    <div class="profile-section">
+                        <img src="https://example.com/profile.jpg" alt="Profile Photo" class="profile-photo">
+                        <div class="info-details">
+                            <div class="info-title">Ваше Имя</div>
+                            <div class="info-text">Некоторая информация о вас.</div>
+                        </div>
+                    </div>
+                    <div class="pet-section">
+                        <img src="https://example.com/pet.jpg" alt="Pet Photo" class="pet-photo">
+                        <div class="info-details">
+                            <div class="info-title">Ваш питомец</div>
+                            <div class="info-text">Некоторая информация о вашем питомце.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальные окна -->
+    <div id="modal" class="modal">
+        <div class="modal-content" id="modalContent">
+            <!-- Содержимое модалки регистрации/профиля -->
+        </div>
+    </div>
+
+    <div id="privacyModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePrivacyModal()">&times;</span>
+            <h2>Privacy Policy</h2>
+            <!-- Политика конфиденциальности -->
+        </div>
+    </div>
+
+    <!-- Terms of Use Modal -->
+    <div id="termsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeTermsModal()">&times;</span>
+            <h2>Terms of Use</h2>
+            <!-- Условия использования -->
+        </div>
+    </div>
+
+    <div id="videoModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeVideoModal()">&times;</span>
+            <iframe src="" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <div id="artistInfoModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeArtistInfoModal()">&times;</span>
+            <div class="modal-title" id="artistName">Artist Name</div>
+            <img id="artistImage" src="" alt="Artist Image">
+            <div class="artist-description" id="artistDescription">Brief information about the artist.</div>
+        </div>
+    </div>
+
+    <!-- Подключение скриптов -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
