@@ -1,11 +1,15 @@
 {
     "version": 2,
     "builds": [
-        { "src": "index.html", "use": "@vercel/static" },
-        { "src": "api/telegram.js", "use": "@vercel/node" }
+      {
+        "src": "public/index.html",
+        "use": "@vercel/static"
+      }
     ],
     "routes": [
-        { "src": "/api/telegram", "dest": "api/telegram.js" },
-        { "src": "/(.*)", "dest": "/index.html" }
+      {
+        "src": "/(.*)",
+        "dest": "/public/index.html"
+      }
     ]
-}
+  }

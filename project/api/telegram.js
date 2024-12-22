@@ -1,13 +1,14 @@
+// api/telegram.js
 export default async function handler(req, res) {
     if (req.method === 'POST') {
         const { type, data } = req.body;
 
-        // Логика обработки данных
+        // Ваша логика обработки данных
         console.log(`Received ${type} data:`, data);
 
-        // Пример исправленного ответа
-        res.status(200).json({ success: true }); // JSON.stringify уже встроен
+        // Пример ответа
+        res.status(200).send(JSON.stringify({ success: true }));
     } else {
-        res.status(405).send(JSON.stringify({ error: 'Method Not Allowed' })); // Преобразование ошибки в строку
+        res.status(405).json({ error: 'Method Not Allowed' });
     }
 }
