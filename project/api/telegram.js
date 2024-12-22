@@ -7,7 +7,7 @@ export default async function handler(req, res) {
         console.log(`Received ${type} data:`, data);
 
         // Пример ответа
-        res.status(200).json({ success: true });
+        res.status(200).send(JSON.stringify({ success: true }));
     } else {
         res.status(405).json({ error: 'Method Not Allowed' });
     }
