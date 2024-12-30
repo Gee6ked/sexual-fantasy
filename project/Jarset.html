@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jarset Mini App</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100vh;
+            background-color: #101820;
+            color: #FEE715;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(145deg, #1a1a1d, #242428);
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            margin: 20px;
+        }
+        .container h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .container p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .tasks-container {
+            padding: 10px;
+            overflow-y: auto;
+            flex: 1;
+        }
+        .task-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #242428;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        .task-box img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+        .task-details {
+            flex: 1;
+            margin-left: 15px;
+            text-align: left;
+        }
+        .task-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .task-desc {
+            font-size: 14px;
+            color: #b3b3b3;
+        }
+        .task-price {
+            font-size: 16px;
+            font-weight: bold;
+            color: #FEE715;
+        }
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            color: #101820;
+            background-color: #FEE715;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        button:hover {
+            background-color: #e6c514;
+            transform: scale(1.05);
+        }
+        .footer {
+            display: flex;
+            justify-content: center;
+            background: linear-gradient(145deg, #1a1a1d, #242428);
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.5);
+            padding: 10px 0;
+            border-top: 2px solid #FEE715;
+        }
+        .footer button {
+            flex: 1;
+            margin: 0 10px;
+            padding: 10px 0;
+            font-size: 14px;
+            color: #101820;
+            background-color: #FEE715;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .footer button:hover {
+            background-color: #e6c514;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Добро пожаловать в Jarset</h1>
+        <p id="user-info">Загрузка информации о пользователе...</p>
+        <button onclick="sendDataToTelegram()">Отправить данные</button>
+    </div>
+
+    <div id="tasks-section" class="tasks-container" style="display:none;">
+        <div class="task-box">
+            <img src="https://via.placeholder.com/50" alt="Task 1">
+            <div class="task-details">
+                <div class="task-title">Задание 1</div>
+                <div class="task-desc">Описание задания №1. Выполните простое действие.</div>
+            </div>
+            <div class="task-price">10 ₽</div>
+        </div>
+        <div class="task-box">
+            <img src="https://via.placeholder.com/50" alt="Task 2">
+            <div class="task-details">
+                <div class="task-title">Задание 2</div>
+                <div class="task-desc">Описание задания №2. Загрузите файл.</div>
+            </div>
+            <div class="task-price">20 ₽</div>
+        </div>
+        <div class="task-box">
+            <img src="https://via.placeholder.com/50" alt="Task 3">
+            <div class="task-details">
+                <div class="task-title">Задание 3</div>
+                <div class="task-desc">Описание задания №3. Поделитесь ссылкой.</div>
+            </div>
+            <div class="task-price">30 ₽</div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <button id="tasks" onclick="showTasks()">📋 Задания</button>
+        <button id="referrals" onclick="navigateTo('referrals')">🔗 Рефералы</button>
+        <button id="exchange" onclick="navigateTo('exchange')">💱 Обмен</button>
+        <button id="profile" onclick="navigateTo('profile')">👤 Профиль</button>
+    </div>
+
+    <script>
+        function navigateTo(page) {
+            window.location.href = page;
+        }
+
+        function showTasks() {
+            document.getElementById("tasks-section").style.display = "block";
+        }
+
+        // Initialize the Telegram Web App
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // Expands the app to full screen
+
+        // Fetch user info and display it
+        const userInfo = document.getElementById("user-info");
+        if (tg.initDataUnsafe.user) {
+            const user = tg.initDataUnsafe.user;
+            userInfo.textContent = `👋 Привет, ${user.first_name} ${user.last_name || ''}`;
+        } else {
+            userInfo.textContent = "Не удалось загрузить информацию о пользователе.";
+        }
+
+        // Function to send data back to Telegram bot
+        function sendDataToTelegram() {
+            tg.sendData("Данные отправлены из Mini App!"); // Sends data to the bot
+            alert("Данные успешно отправлены!");
+        }
+    </script>
+</body>
+</html>
